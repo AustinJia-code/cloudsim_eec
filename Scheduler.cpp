@@ -101,21 +101,21 @@ void Scheduler::TaskComplete(Time_t now, TaskId_t task_id) {
 
 // Public interface below
 
-static Scheduler Scheduler;
+static Scheduler scheduler;
 
 void InitScheduler() {
     SimOutput("InitScheduler(): Initializing scheduler", 4);
-    Scheduler.Init();
+    scheduler.Init();
 }
 
 void HandleNewTask(Time_t time, TaskId_t task_id) {
     SimOutput("HandleNewTask(): Received new task " + to_string(task_id) + " at time " + to_string(time), 4);
-    Scheduler.NewTask(time, task_id);
+    scheduler.NewTask(time, task_id);
 }
 
 void HandleTaskCompletion(Time_t time, TaskId_t task_id) {
     SimOutput("HandleTaskCompletion(): Task " + to_string(task_id) + " completed at time " + to_string(time), 4);
-    Scheduler.TaskComplete(time, task_id);
+    scheduler.TaskComplete(time, task_id);
 }
 
 void MemoryWarning(Time_t time, MachineId_t machine_id) {
@@ -126,14 +126,14 @@ void MemoryWarning(Time_t time, MachineId_t machine_id) {
 void MigrationDone(Time_t time, VMId_t vm_id) {
     // The function is called on to alert you that migration is complete
     SimOutput("MigrationDone(): Migration of VM " + to_string(vm_id) + " was completed at time " + to_string(time), 4);
-    Scheduler.MigrationComplete(time, vm_id);
+    scheduler.MigrationComplete(time, vm_id);
     migrating = false;
 }
 
 void SchedulerCheck(Time_t time) {
     // This function is called periodically by the simulator, no specific event
     SimOutput("SchedulerCheck(): SchedulerCheck() called at " + to_string(time), 4);
-    Scheduler.PeriodicCheck(time);
+    scheduler.PeriodicCheck(time);
     static unsigned counts = 0;
     counts++;
     if(counts == 10) {
@@ -152,7 +152,7 @@ void SimulationComplete(Time_t time) {
     cout << "Simulation run finished in " << double(time)/1000000 << " seconds" << endl;
     SimOutput("SimulationComplete(): Simulation finished at time " + to_string(time), 4);
     
-    Scheduler.Shutdown(time);
+    scheduler.Shutdown(time);
 }
 
 void SLAWarning(Time_t time, TaskId_t task_id) {

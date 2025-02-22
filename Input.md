@@ -1,6 +1,5 @@
 machine class:
 {
-# comment
         Number of machines: 16
         CPU type: X86
         Number of cores: 8
